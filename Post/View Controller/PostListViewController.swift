@@ -11,10 +11,9 @@ import UIKit
 class PostListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
  
     var postController = PostController()
-    
+    var refreshControl = UIRefreshControl()
     
     @IBOutlet weak var postTableView: UITableView!
-    
     
     
     override func viewDidLoad() {
@@ -24,12 +23,30 @@ class PostListViewController: UIViewController, UITableViewDelegate, UITableView
         
         postController.fetchPosts {
             DispatchQueue.main.async {
-                self.postTableView.reloadData()
+                self.reloadTableView()
             }
         }
         
+        postTableView.estimatedRowHeight = 45
+        postTableView.rowHeight = UITableView.automaticDimension
+        
+        postTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshControlPulled), for: .valueChanged)
     }
     
+    func reloadTableView() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        postTableView.reloadData()
+    }
+    
+    @objc func refreshControlPulled() {
+        postController.fetchPosts {
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
+        }
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return postController.posts.count

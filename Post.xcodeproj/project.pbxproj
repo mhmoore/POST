@@ -39,6 +39,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A5CD419E23021DF800F3076B /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A5CD419C2302157800F3076B /* PostListViewController.swift */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		A5CD419F23021E0400F3076B /* Model Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A5F50F8F230201840071F794 /* PostController.swift */,
+			);
+			path = "Model Controller";
+			sourceTree = "<group>";
+		};
+		A5CD41A023021E0D00F3076B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A5F50F8D2301FE420071F794 /* Post.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		A5F50F8C2301FDED0071F794 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -46,8 +70,6 @@
 				B755BB80219DE7ED00A9E085 /* Assets.xcassets */,
 				B755BB82219DE7ED00A9E085 /* LaunchScreen.storyboard */,
 				B755BB85219DE7ED00A9E085 /* Info.plist */,
-				A5F50F8D2301FE420071F794 /* Post.swift */,
-				A5F50F8F230201840071F794 /* PostController.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -71,9 +93,11 @@
 		B755BB78219DE7EC00A9E085 /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				A5F50F8C2301FDED0071F794 /* Resources */,
 				B755BB7D219DE7EC00A9E085 /* Main.storyboard */,
-				A5CD419C2302157800F3076B /* PostListViewController.swift */,
+				A5F50F8C2301FDED0071F794 /* Resources */,
+				A5CD419F23021E0400F3076B /* Model Controller */,
+				A5CD41A023021E0D00F3076B /* Model */,
+				A5CD419E23021DF800F3076B /* View Controller */,
 			);
 			path = Post;
 			sourceTree = "<group>";
