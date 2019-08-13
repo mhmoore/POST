@@ -45,6 +45,44 @@ class PostController {
             }
         }.resume()
     }
+
+
+    func addNewPostWith(username: String, text: String, completion: @escaping() -> Void) {
+        let post = Post(text: text, username: username, timestamp: Date().timeIntervalSince1970)  // timestamp?
+        
+        var postData: Data
+        let jsonEncoder = JSONEncoder()
+        
+        do {
+            postData = try jsonEncoder.encode(post)
+        } catch {
+            print("There was an error encoding. \(error): \(error.localizedDescription)")
+            return
+        }
+        
+        guard let unwrappedURL = baseURL else { return }
+        
+        let postEndpoint = unwrappedURL.appendingPathExtension("json")
+        
+        var urlRequest = URLRequest(url: postEndpoint)
+        urlRequest.httpMethod = "POST"
+        urlRequest.httpBody = postData
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                print("There was and error posting data. \(error): \(error.localizedDescription)")
+                completion()
+                return
+            }
+            guard let data = data else { return }
+            let dataResponseString = String(data: data, encoding: .utf8)
+            self.posts.append(post)
+            self.fetchPosts(completion: {
+                completion()
+            })
+        }.resume()
+    }
+
 }
 
 

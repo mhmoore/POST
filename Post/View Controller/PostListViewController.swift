@@ -61,4 +61,9 @@ class PostListViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
 
+    
+    
+    // MARK: - Actions
+    @IBAction func addButtonTapped(_ sender: Any) {
+    }
 }

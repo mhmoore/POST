@@ -58,7 +58,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Aui-Nv-y6V"/>
                     </view>
-                    <navigationItem key="navigationItem" id="B5B-gR-8sy"/>
+                    <navigationItem key="navigationItem" id="B5B-gR-8sy">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="sWJ-ws-H3i">
+                            <connections>
+                                <action selector="addButtonTapped:" destination="fmu-qq-nfc" id="pt4-ac-4HN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="postTableView" destination="37C-Fx-0nc" id="n6X-Hz-xUS"/>
                     </connections>
