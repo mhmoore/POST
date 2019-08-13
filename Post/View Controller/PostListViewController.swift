@@ -15,7 +15,6 @@ class PostListViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var postTableView: UITableView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         postTableView.delegate = self
@@ -60,10 +59,56 @@ class PostListViewController: UIViewController, UITableViewDelegate, UITableView
         
         return cell
     }
-
     
+    func presentErrorAlert() {
+        let alert = UIAlertController(title: "Missing some stuff", message: "Please don't forget to include a username AND a message. Thanks!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { (action) in
+            self.presentNewPostAlert()
+        }))
+        self.present(alert, animated: true, completion: nil)
+        return
+    }
+
+    func presentNewPostAlert() {
+        let alert = UIAlertController(title: "Add a new Post!", message: "Care to share?", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+        }
+        alert.addTextField { (textField) in
+        }
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { (_) in
+            guard let username = alert.textFields?[0].text,
+                let message = alert.textFields?[1].text else { return }
+            if !username.isEmpty && !message.isEmpty {
+                self.postController.addNewPostWith(username: username, text: message, completion: {
+                    DispatchQueue.main.async {
+                        self.reloadTableView()
+                    }
+                })
+            } else {
+                self.presentErrorAlert()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        self.present(alert, animated: true, completion: nil)
+    }
     
     // MARK: - Actions
     @IBAction func addButtonTapped(_ sender: Any) {
+        presentNewPostAlert()
+    }
+}
+
+extension PostListViewController {
+// checks for when the user has scrolled to the end of the table view and calls the updated fetchPosts with correct parameters
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let row = indexPath.row
+        let postsCount = (postController.posts.count - 1)
+
+        if row >= postsCount {
+            postController.fetchPosts(reset: false) {
+                self.reloadTableView()
+            }
+        }
+        return
     }
 }
